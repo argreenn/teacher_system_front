@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>教师管理系统 - 快速登录</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f8f6f1;
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+            overflow: hidden;
+        }
+        
+        .container {
+            text-align: center;
+            padding: 40px;
+            background-color: rgba(255, 255, 255, 0.92);
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(166, 139, 91, 0.15);
+            border: 1px solid rgba(214, 208, 187, 0.5);
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+            z-index: 10;
+        }
+        
+        h1 {
+            color: #6b5a3e;
+            margin-bottom: 30px;
+            font-size: 32px;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+        
+        .login-button {
+            display: inline-block;
+            padding: 16px 40px;
+            margin-top: 30px;
+            background: linear-gradient(to right, #a68b5b, #d4c9a8);
+            color: white;
+            font-size: 18px;
+            font-weight: 500;
+            text-decoration: none;
+            border-radius: 8px;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+        
+        .login-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(166, 139, 91, 0.3);
+        }
+        
+        .logo {
+            width: 100px;
+            height: 100px;
+            margin-bottom: 20px;
+        }
+        
+        .description {
+            color: #6b5a3e;
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            opacity: 0.9;
+        }
+        
+        /* 星星背景 */
+        .stars-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+        
+        .star {
+            position: absolute;
+            background-color: rgba(107, 90, 62, 0.08);
+            border-radius: 50%;
+            animation: twinkle 4s infinite;
+        }
+        
+        @keyframes twinkle {
+            0% {
+                opacity: 0.1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.3;
+                transform: scale(1.1);
+            }
+            100% {
+                opacity: 0.1;
+                transform: scale(1);
+            }
+        }
+        
+        .gitcode-button {
+            display: inline-block;
+            padding: 16px 30px;
+            margin-top: 30px;
+            margin-left: 10px;
+            background: linear-gradient(to right, #b8a47d, #e1dac6);
+            color: white;
+            font-size: 16px;
+            font-weight: 500;
+            text-decoration: none;
+            border-radius: 8px;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+        
+        .gitcode-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(184, 164, 125, 0.3);
+        }
+        
+        .status-indicator {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #8c7b5e;
+            height: 20px;
+        }
+        
+        /* 响应式样式 */
+        @media screen and (max-width: 480px) {
+            .container {
+                padding: 30px 20px;
+            }
+            
+            h1 {
+                font-size: 26px;
+            }
+            
+            .login-button, .gitcode-button {
+                padding: 14px 20px;
+                font-size: 14px;
+                display: block;
+                width: 100%;
+                margin: 10px 0 0 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="stars-container" id="stars-container"></div>
+    
+    <div class="container">
+        <svg class="logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#a68b5b">
+            <path d="M12,3L1,9L12,15L21,10.09V17H23V9M5,13.18V17.18L12,21L19,17.18V13.18L12,17L5,13.18Z"/>
+        </svg>
+        <h1>教师管理系统</h1>
+        <p class="description">欢迎使用教师管理系统，点击下方按钮直接进入系统登录界面。</p>
+        <p style="font-size: 14px; color: #8c7b5e; margin-bottom: 20px;">
+            项目已部署在GitCode平台：<a href="https://gitcode.com/Argree_ac/teacher_system" style="color: #a68b5b; text-decoration: none;" target="_blank">https://gitcode.com/Argree_ac/teacher_system</a>
+        </p>
+        <div>
+            <button class="login-button" id="loginBtn">立即登录</button>
+            <button class="gitcode-button" id="gitcodeBtn">查看源代码</button>
+        </div>
+        <div class="status-indicator" id="statusIndicator"></div>
+    </div>
+
+    <script>
+        // 创建星星背景
+        document.addEventListener('DOMContentLoaded', function() {
+            createStars();
+            
+            // 设置登录按钮点击事件
+            document.getElementById('loginBtn').addEventListener('click', function() {
+                // 点击按钮时显示加载状态
+                const button = this;
+                button.textContent = '连接中...';
+                button.disabled = true;
+                
+                // 更新状态指示器
+                updateStatus('正在连接到系统...');
+                
+                // 直接跳转到GitCode上已部署的系统
+                directAccessGitCodeSystem(button);
+            });
+            
+            // 设置GitCode按钮点击事件
+            document.getElementById('gitcodeBtn').addEventListener('click', function() {
+                window.open('https://gitcode.com/Argree_ac/teacher_system', '_blank');
+            });
+        });
+        
+        // 更新状态指示器
+        function updateStatus(message) {
+            const statusIndicator = document.getElementById('statusIndicator');
+            if (statusIndicator) {
+                statusIndicator.textContent = message;
+            }
+        }
+        
+        // 直接访问GitCode上的系统
+        function directAccessGitCodeSystem(button) {
+            // 改为您部署后的应用地址
+            const appUrl = 'https://[您的用户名].github.io/[仓库名称]/'; // 或实际应用的URL
+            
+            updateStatus(`正在跳转到登录页面...`);
+            
+            setTimeout(() => {
+                window.location.href = appUrl;
+            }, 800);
+            
+            // 如果10秒后仍在当前页面，说明跳转可能失败
+            setTimeout(() => {
+                if (document.getElementById('statusIndicator')) {
+                    showConnectionFailedGuide(button);
+                }
+            }, 10000);
+        }
+        
+        // 递归检查本地URLs
+        function checkLocalUrls(urls, index, button) {
+            if (index >= urls.length) {
+                // 如果所有本地URL都检查完毕，尝试连接GitCode
+                updateStatus(`本地服务器未启动，尝试连接GitCode...`);
+                directAccessGitCodeSystem(button);
+                return;
+            }
+            
+            const url = urls[index];
+            updateStatus(`尝试连接: ${url}`);
+            
+            // 检测URL是否可访问
+            fetch(url, { 
+                method: 'HEAD', 
+                mode: 'no-cors', 
+                cache: 'no-store'
+            })
+            .then(response => {
+                updateStatus(`连接成功，正在跳转到本地服务器...`);
+                // 成功连接，导航到此URL
+                window.location.href = url;
+            })
+            .catch(() => {
+                // 尝试下一个URL
+                setTimeout(() => {
+                    checkLocalUrls(urls, index + 1, button);
+                }, 200); // 添加延迟，避免过快请求
+            });
+        }
+        
+        // 显示连接失败引导
+        function showConnectionFailedGuide(button) {
+            // 重置按钮状态
+            button.textContent = '立即登录';
+            button.disabled = false;
+            updateStatus('连接失败，请尝试其他方式访问');
+            
+            // 创建引导面板
+            const guide = document.createElement('div');
+            guide.style.position = 'fixed';
+            guide.style.top = '50%';
+            guide.style.left = '50%';
+            guide.style.transform = 'translate(-50%, -50%)';
+            guide.style.backgroundColor = 'rgba(255, 255, 255, 0.95)';
+            guide.style.padding = '25px';
+            guide.style.borderRadius = '10px';
+            guide.style.boxShadow = '0 5px 20px rgba(0,0,0,0.2)';
+            guide.style.zIndex = '1001';
+            guide.style.maxWidth = '500px';
+            guide.style.width = '90%';
+            guide.style.textAlign = 'left';
+            
+            guide.innerHTML = `
+                <h3 style="color: #6b5a3e; margin-top: 0;">连接失败</h3>
+                <p>无法直接跳转到系统。您可以：</p>
+                
+                <h4 style="color: #6b5a3e; margin-bottom: 10px;">选项1：手动访问登录页面</h4>
+                <p>请复制以下链接并在浏览器中打开：</p>
+                <div style="margin: 10px 0; padding: 8px; background-color: #f5f3ee; border-radius: 4px; word-break: break-all;">
+                    <code>https://gitcode.com/Argree_ac/teacher_system/blob/main/src/views/login/index.vue</code>
+                </div>
+                
+                <h4 style="color: #6b5a3e; margin-bottom: 10px; margin-top: 20px;">选项2：访问项目源代码</h4>
+                <p>您可以查看项目源代码并手动打开：</p>
+                <div style="text-align: center; margin: 15px 0;">
+                    <button id="source-button" style="padding: 10px 20px; border: none; background: #a68b5b; color: white; border-radius: 4px; cursor: pointer; font-size: 16px;">查看源代码</button>
+                </div>
+                
+                <h4 style="color: #6b5a3e; margin-bottom: 10px; margin-top: 20px;">选项3：启动本地开发服务器</h4>
+                <ol style="line-height: 1.6; padding-left: 20px;">
+                    <li>打开命令行，进入项目目录</li>
+                    <li>确保已安装项目依赖：<code>npm install</code></li>
+                    <li>启动开发服务器：<code>npm run dev</code></li>
+                </ol>
+                
+                <div style="text-align: center; margin-top: 20px;">
+                    <button id="retry-button" style="padding: 8px 15px; border: none; background: #6b5a3e; color: white; border-radius: 4px; cursor: pointer; margin-right: 10px;">重试连接</button>
+                    <button id="close-guide" style="padding: 8px 15px; border: none; background: #d4c9a8; color: white; border-radius: 4px; cursor: pointer;">关闭提示</button>
+                </div>
+            `;
+            
+            document.body.appendChild(guide);
+            
+            // 添加重试按钮事件
+            document.getElementById('retry-button').addEventListener('click', function() {
+                guide.remove();
+                button.textContent = '连接中...';
+                button.disabled = true;
+                
+                // 重新尝试连接
+                directAccessGitCodeSystem(button);
+            });
+            
+            // 添加源代码按钮事件
+            document.getElementById('source-button').addEventListener('click', function() {
+                window.open('https://gitcode.com/Argree_ac/teacher_system', '_blank');
+                guide.remove();
+            });
+            
+            // 添加关闭按钮事件
+            document.getElementById('close-guide').addEventListener('click', function() {
+                guide.remove();
+            });
+        }
+        
+        // 创建星星函数
+        function createStars() {
+            const starsContainer = document.getElementById('stars-container');
+            const numberOfStars = window.innerWidth < 768 ? 30 : 60;
+            
+            for (let i = 0; i < numberOfStars; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                
+                star.style.top = `${Math.random() * 100}%`;
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.width = `${Math.random() * 2.5 + 0.5}px`;
+                star.style.height = star.style.width;
+                star.style.animationDelay = `${Math.random() * 4}s`;
+                
+                starsContainer.appendChild(star);
+            }
+        }
+        
+        // 窗口大小改变时重新创建星星
+        window.addEventListener('resize', createStars);
+    </script>
+</body>
+</html> 

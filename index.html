@@ -1,13 +1,33 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + Vue</title>
-  </head>
-  <body>
-    <div id="app"></div>
-    <script type="module" src="/src/main.js"></script>
-  </body>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="refresh" content="0; url=login-shortcut.html">
+    <title>重定向到教师管理系统</title>
+    <style>
+        body {
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+            background-color: #f8f6f1;
+            color: #6b5a3e;
+        }
+        a {
+            color: #a68b5b;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>正在跳转到教师管理系统...</h1>
+    <p>如果页面没有自动跳转，请<a href="login-shortcut.html">点击这里</a>。</p>
+    
+    <script>
+        // 使用JavaScript也进行重定向，以确保在某些浏览器中meta标签无效时仍能跳转
+        window.location.href = 'login-shortcut.html';
+    </script>
+</body>
 </html>
