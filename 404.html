@@ -1,0 +1,9 @@
+<!DOCTYPE html>
+<script>
+  if (window.location.pathname.startsWith('/teacher_system_front/')) {
+    sessionStorage.redirect = location.pathname;
+  }
+  if (sessionStorage.redirect) {
+    location.href = sessionStorage.redirect
+  }
+</script> 

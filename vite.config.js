@@ -3,5 +3,10 @@ import vue from '@vitejs/plugin-vue'
 
 // https://vite.dev/config/
 export default defineConfig({
+  base: '/teacher_system_front/',
   plugins: [vue()],
+  build: {
+    outDir: 'docs',
+    assetsDir: './'
+  }
 })
