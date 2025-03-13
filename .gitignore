@@ -8,7 +8,8 @@ pnpm-debug.log*
 lerna-debug.log*
 
 node_modules
-dist
+# 注释掉下面这行，确保 dist 文件夹被包含在版本控制中
+# dist
 dist-ssr
 *.local
 
